@@ -1,0 +1,39 @@
+name: LambdaTest CI
+
+on:
+  push:
+    branches: [ lambdatest ]
+  pull_request:
+    branches: [ lambdatest ]
+
+jobs:
+  lambdatest:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        python -m venv .venv
+        source .venv/bin/activate
+        pip install -r requirements.txt
+
+    - name: Run tests on LambdaTest
+      env:
+        LT_USERNAME: ${{ secrets.LT_USERNAME }}
+        LT_ACCESS_KEY: ${{ secrets.LT_ACCESS_KEY }}
+      run: |
+        source .venv/bin/activate
+        pytest -q --html=report.html --self-contained-html
+
+    - name: Upload pytest-html report
+      uses: actions/upload-artifact@v4
+      with:
+        name: pytest-report-lambdatest
+        path: report.html
