@@ -35,8 +35,8 @@ def browser():
         option = {
             "platform": "Windows 10",
             "version": "latest",
-            "name": "pytest-lambdatest-session",
-            "Build": "pytest-lambdatest-build",
+            "name": "pytest-lambdatest-pom",
+            "Build": "pytest-lambdatest-pom",
             "video": True,
             "visual": True,
             "network": True,
