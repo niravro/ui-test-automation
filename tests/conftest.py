@@ -21,17 +21,30 @@ def browser():
     if lt_user and lt_key:
         # LambdaTest remote configuration
         lt_url = f"https://{lt_user}:{lt_key}@hub.lambdatest.com/wd/hub"
-        caps = {
-            "platformName": "Windows 10",
-            "browserName": "Chrome",
-            "browserVersion": "120.0",
-            "LT:Options": {
-                "build": "pytest-lambdatest-build",
-                "name": "pytest-lambdatest-session",
-                "selenium_version": "4.10.0",
-            },
+        # caps = {
+        #     "platformName": "Windows 10",
+        #     "browserName": "Chrome",
+        #     "browserVersion": "120.0",
+        #     "LT:Options": {
+        #         "build": "pytest-lambdatest-build",
+        #         "name": "pytest-lambdatest-session",
+        #         "selenium_version": "3.14",
+        #     },
+        # }
+        chrome_options = webdriver.ChromeOptions()
+        option = {
+            "platform": "Windows 10",
+            "version": "latest",
+            "name": "pytest-lambdatest-session",
+            "Build": "pytest-lambdatest-build",
+            "video": True,
+            "visual": True,
+            "network": True,
+            "console": True
         }
-        driver = webdriver.Remote(command_executor=lt_url, desired_capabilities=caps)
+        chrome_options.set_capability("LT:Options", option)
+        # driver = webdriver.Remote(command_executor=lt_url, desired_capabilities=caps)
+        driver = webdriver.Remote(command_executor=lt_url, options=chrome_options)
         yield driver
         driver.quit()
 
