@@ -45,25 +45,36 @@ def browser():
             "console": True
         }
         chrome_options.set_capability("LT:Options", option)
-        # driver = webdriver.Remote(command_executor=lt_url, desired_capabilities=caps)
         driver = webdriver.Remote(command_executor=lt_url, options=chrome_options)
         yield driver
         driver.quit()
 
     elif bs_user and bs_key:
         # BrowserStack remote configuration
+        # bs_caps = {
+        #     "browserName": "Chrome",
+        #     "browserVersion": "latest",
+        #     "bstack:options": {
+        #         "os": "Windows",
+        #         "osVersion": "11",
+        #         "projectName": "pytest-browserstack-project",
+        #         "sessionName": "pytest-browserstack-session",
+        #     },
+        # }
         bs_url = f"https://{bs_user}:{bs_key}@hub-cloud.browserstack.com/wd/hub"
-        bs_caps = {
-            "browserName": "Chrome",
-            "browserVersion": "latest",
-            "bstack:options": {
-                "os": "Windows",
-                "osVersion": "11",
-                "projectName": "pytest-browserstack-project",
-                "sessionName": "pytest-browserstack-session",
-            },
+        chrome_options = webdriver.ChromeOptions()
+        option = {
+            "platform": "Windows 10",
+            "version": "latest",
+            "name": "pytest-browserstack-demo",
+            "Build": "pytest-browserstack-demo",
+            "video": True,
+            "visual": True,
+            "network": True,
+            "console": True
         }
-        driver = webdriver.Remote(command_executor=bs_url, desired_capabilities=bs_caps)
+        chrome_options.set_capability("BS:Options", option)
+        driver = webdriver.Remote(command_executor=bs_url, options=chrome_options)
         yield driver
         driver.quit()
 
