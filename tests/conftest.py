@@ -17,6 +17,8 @@ def browser():
     """
     lt_user = os.environ.get("LT_USERNAME")
     lt_key = os.environ.get("LT_ACCESS_KEY")
+    bs_user = os.environ.get("BROWSERSTACK_USERNAME")
+    bs_key = os.environ.get("BROWSERSTACK_ACCESS_KEY")
 
     if lt_user and lt_key:
         # LambdaTest remote configuration
@@ -45,6 +47,23 @@ def browser():
         chrome_options.set_capability("LT:Options", option)
         # driver = webdriver.Remote(command_executor=lt_url, desired_capabilities=caps)
         driver = webdriver.Remote(command_executor=lt_url, options=chrome_options)
+        yield driver
+        driver.quit()
+
+    elif bs_user and bs_key:
+        # BrowserStack remote configuration
+        bs_url = f"https://{bs_user}:{bs_key}@hub-cloud.browserstack.com/wd/hub"
+        bs_caps = {
+            "browserName": "Chrome",
+            "browserVersion": "latest",
+            "bstack:options": {
+                "os": "Windows",
+                "osVersion": "11",
+                "projectName": "pytest-browserstack-project",
+                "sessionName": "pytest-browserstack-session",
+            },
+        }
+        driver = webdriver.Remote(command_executor=bs_url, desired_capabilities=bs_caps)
         yield driver
         driver.quit()
 
