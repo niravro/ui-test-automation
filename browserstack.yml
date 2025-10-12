@@ -1,0 +1,14 @@
+userName: niravrodatta_bRJk1G
+accessKey: zu4Us73MdN3PetHatqFy
+platforms:
+  - os: Windows
+    osVersion: 10
+    browserName: Chrome
+    browserVersion: 120.0
+# parallelsPerPlatform: 1
+browserstackLocal: false
+buildName: bstack-demo
+projectName: ND-Pilot
+networkLogs: true
+consoleLogs: info
+framework: pytest
